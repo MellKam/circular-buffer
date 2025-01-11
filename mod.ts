@@ -1,8 +1,10 @@
 /**
  * @example
+ * ```ts
  * const buffer = CircularBuffer.withCapacity(3);
  * buffer.push(1, 2, 3);  // [1, 2, 3]
  * buffer.push(4);        // [2, 3, 4]
+ * ```
  */
 export class CircularBuffer<T> implements Iterable<T, undefined> {
 	/**
@@ -18,9 +20,11 @@ export class CircularBuffer<T> implements Iterable<T, undefined> {
 	 * @returns A new `CircularBuffer` containing the source elements and capacity equal to the number of elements.
 	 *
 	 * @example
+	 * ```ts
 	 * const array = CircularBuffer.from([1, 2, 3]);
 	 * console.log(array.capacity); // 3
 	 * console.log([...array]); // [1, 2, 3]
+	 * ```
 	 */
 	static from<T>(iterable: Iterable<T>): CircularBuffer<T> {
 		const buffer = [...iterable];
@@ -34,8 +38,10 @@ export class CircularBuffer<T> implements Iterable<T, undefined> {
 	 * @returns {CircularBuffer<T>} A new empty CircularBuffer
 	 *
 	 * @example
+	 * ```ts
 	 * const array = CircularBuffer.withCapacity(3);
 	 * array.push(1, 2, 3, 4);  // Only keeps [2, 3, 4]
+	 * ```
 	 */
 	static withCapacity<T>(capacity: number): CircularBuffer<T> {
 		return new CircularBuffer<T>(new Array(capacity), 0, 0);
@@ -94,8 +100,10 @@ export class CircularBuffer<T> implements Iterable<T, undefined> {
 	 * @throws {RangeError} If index is out of bounds
 	 *
 	 * @example
+	 * ```ts
 	 * const array = CircularBuffer.from([1, 2, 3]);
 	 * array.set(1, 5);  // [1, 5, 3]
+	 * ```
 	 */
 	set(index: number, item: T): this {
 		if (index <= -this._size || index >= this._size) {
@@ -112,9 +120,11 @@ export class CircularBuffer<T> implements Iterable<T, undefined> {
 	 * @returns The element at the specified index, or `undefined` if index is out of bounds
 	 *
 	 * @example
+	 * ```ts
 	 * const array = CircularBuffer.from([1, 2, 3]);
 	 * console.log(array.get(1));  // 2
 	 * console.log(array.get(5));  // undefined
+	 * ```
 	 */
 	get(index: number): T | undefined {
 		if (index <= -this._size - 1 || index >= this._size) {
