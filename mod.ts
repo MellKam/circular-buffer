@@ -2,7 +2,7 @@
  * @example
  * const buffer = CircularBuffer.withCapacity(3);
  * buffer.push(1, 2, 3);  // [1, 2, 3]
- * buffer.push(4);        // [4, 2, 3]
+ * buffer.push(4);        // [2, 3, 4]
  */
 export class CircularBuffer<T> implements Iterable<T, undefined> {
 	/**
@@ -51,7 +51,7 @@ export class CircularBuffer<T> implements Iterable<T, undefined> {
 
 	push(...items: T[]): this {
 		const capacity = this._buffer.length;
-		for (let i = 0; i < items.length; i++) {
+		for (let i = Math.max(0, items.length - capacity); i < items.length; i++) {
 			const index = (this._position + this._size + i) % capacity;
 			this._buffer[index] = items[i]!;
 		}
@@ -73,6 +73,11 @@ export class CircularBuffer<T> implements Iterable<T, undefined> {
 		return item;
 	}
 
+	/**
+	 * Removes the first element from the buffer and returns it.
+	 *
+	 * @returns The removed element, or `undefined` if the buffer is empty
+	 */
 	shift(): T | undefined {
 		if (this._size === 0) {
 			return undefined;

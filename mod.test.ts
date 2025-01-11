@@ -16,10 +16,16 @@ Deno.test("should push elements to the buffer", () => {
 
 Deno.test("should overwrite oldest elements when buffer is full", () => {
 	const buffer = CircularBuffer.withCapacity(3);
-	buffer.push(1, 2, 3);
-	buffer.push(4);
-	assertEquals([...buffer], [2, 3, 4]);
+	assertEquals([...buffer.push(1).push(2).push(3).push(4)], [2, 3, 4]);
 });
+
+Deno.test(
+	"should handle pushing more elements than the buffer capacity",
+	() => {
+		const buffer = CircularBuffer.withCapacity(3);
+		assertEquals([...buffer.push(1, 2, 3, 4)], [2, 3, 4]);
+	}
+);
 
 Deno.test("should pop elements from the buffer", () => {
 	const buffer = CircularBuffer.from([1, 2, 3]);
